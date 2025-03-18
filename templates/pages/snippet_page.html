@@ -16,30 +16,49 @@
 <div class="row">
     <div class="col">
 
-<fieldset disabled>
-    <div class="row_disabled">
-        <div class="col col-8">
-            Название: <input type="text" value={{snippet.name}} class="form-control">
+{% if type == "view" %}
+    <fieldset disabled>
+        <div class="row disabled">
+            <div class="col col-8">
+                Название: <input type="text" value={{snippet.name}} class="form-control">
+            </div>
+            <div class="col col-4">
+                Дата создания: <input type="text" value={{snippet.creation_date}} | date:"d-m-Y" class="form-control">
+            </div>
         </div>
-        <div class="col col-4">
-            Дата создания: <input type="text" value={{snippet.creation_date}} | date:"d-m-Y" class="form-control">
+        <hr>
+        <div class="row">
+            <div class="col">
+                <div class="p-2 h-100" style="border:1px solid #ced4da; border-radius:5px;">
+                    <p>
+                        {{snippet.code}}
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-    <hr>
+    </fieldset>
+{% else %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="row ">
+            <div class="col col-8">
+                Название: <input type="text" name="name" value={{snippet.name}} class="form-control">
+            </div>
+        </div>   
+
     <div class="row">
         <div class="col">
             <div class="p-2 h-100" style="border:1px solid #ced4da; border-radius:5px;">
-                <p>
+                <textarea name="code" >
                     {{snippet.code}}
-                </p>
- 
+                </textarea>
             </div>
- 
         </div>
     </div>
-</fieldset>
-
-
+    <br>
+    <button type="submit" class="btn btn-primary btn-block">Обвновить</button>
+    </form>
+{% endif %}
         </div>
     </div>
 </div>

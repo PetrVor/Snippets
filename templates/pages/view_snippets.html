@@ -19,7 +19,6 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
-                        <th scope="col">Delete иконка</th>
                         <th scope="col">Дата создания</th>
                         <th scope="col">Удалить</th>
                     </tr>
@@ -28,11 +27,13 @@
                     {% for snippet in snippets %}
                     <tr>
                         <td scope="row">{{snippet.id}}</td>
-                        <td><a href="{% url "snippet-detail" snippet.id %}">{{snippet.name}}</a></td>
-                            <td><a href="{% url "snippet-delete" snippet.id %}">
-                            <i style="color:red;" class="fa-solid fa-trash fa-bounce"></i></a>
+                            <td><a href="{% url "snippet-detail" snippet.id %}">{{snippet.name}}</a>
+                                <a href="{% url "snippet-delete" snippet.id %}">
+                                    <i style="color:red;" class="fa-solid fa-trash fa-bounce"></i></a>
+                                <a href="{% url "snippet-edit" snippet.id %}">
+                                    <i style="color:red;" class="fas fa-edit"></i></a>
+                                
                             </td>
-                        </td>
                         <td>{{snippet.creation_date | date:"Y-m-d H:i:s"}}</td>
                         
                         <td>
