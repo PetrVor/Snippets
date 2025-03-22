@@ -92,8 +92,11 @@ def login(request):
        if user is not None:
            auth.login(request, user)
        else:
-           # Return error message
-           pass
+           context ={
+               "pagemane": "PythonBin",
+               "errors": ["wrong username or password",]
+           }
+           return render(request,"index.html",context)
    return redirect('home')
 
 
