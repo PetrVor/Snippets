@@ -12,6 +12,14 @@ def index_page(request):
     return render(request, 'pages/index.html', context)
 
 
+def my_snippets(request):
+    snippets = Snippet.objects.filter(user=request.user)
+    context = {
+            'pagename': 'Мои сниппеты',
+            'snippets': snippets}
+    return render(request, 'pages/view_snippets.html', context)
+
+
 @login_required(login_url='home')
 def add_snippet_page(request):
 # Create empty form by GET method
