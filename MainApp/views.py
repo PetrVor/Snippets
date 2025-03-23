@@ -1,6 +1,6 @@
 from django.http import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, render, redirect
-from MainApp.forms import SnippetForm, UserRegistrationForm
+from MainApp.forms import SnippetForm, UserRegistrationForm,CommentForm
 from MainApp.models import Snippet
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import auth
@@ -46,7 +46,8 @@ def snippets_page(request):
     snippets = Snippet.objects.filter(public=True)
     context = {
             'pagename': 'Просмотр сниппетов',
-            'snippets': snippets}
+            'snippets': snippets,
+            "count": snippets.count(),}
     return render(request, 'pages/view_snippets.html', context)
 
 def snippet_detail(request, snippet_id):
@@ -55,9 +56,11 @@ def snippet_detail(request, snippet_id):
         snippet = Snippet.objects.get(id=snippet_id)
     except ObjectDoesNotExist:    
         return render(request,"pages/error.html", context | {"error" : f"Snippet with id:{snippet_id} not found!"}) 
-    else:      
+    else:
+        comments_form = CommentForm      
         context['snippet'] = snippet
         context["type"] = "view"
+        context["comments_form"] = comments_form
     return render(request,'pages/snippet_page.html', context)
 
 @login_required
@@ -131,7 +134,17 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect("home")
-        
 
-
-
+@login_required
+def comments_add(request):
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            snippet_id = request.POST.get("snippet_id")
+            snippet = Snippet.objects.get(id=snippet_id)
+            comment = comment_form.save(commit=False)
+            comment.author =  request.user
+            comment.snippet = snippet
+            comment.save()
+            return redirect("snippet-detail", snippet_id = snippet.id)
+    return HttpResponseNotAllowed(['POST'])    

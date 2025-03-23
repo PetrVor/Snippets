@@ -23,7 +23,7 @@
                 Название: <input type="text" value={{snippet.name}} class="form-control">
             </div>
             <div class="col col-4">
-                Дата создания: <input type="text" value={{snippet.creation_date}} | date:"d-m-Y" class="form-control">
+                Дата создания: <input type="text" value={{snippet.creation_date | date:"d-m-Y" }} class="form-control">
             </div>
         </div>
         <hr>
@@ -37,7 +37,29 @@
             </div>
         </div>
     </fieldset>
-{% else %}
+        <br>
+            <table border = 1>
+                <tr>
+                    <th>Автор</th>
+                    <th>Комментарий</th>
+                </tr>
+                {% for comment in snippet.comments.all %}
+                    <tr>
+                        <td> {{comment.author.username}}</td>
+                        <td> {{comment.text}} </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br><br>
+                {% if request.user.is_authenticated %}
+                <form action="{% url 'comments-add' %}" method="POST">
+                    {% csrf_token %}
+                    {{comments_form}}
+                    <input name="snippet_id" type="hidden" value= {{snippet.id}}> <br>
+                    <button type="submit">Добавить комментарий</button>
+                 </form>
+                {% endif %}
+            {% else %}
     <form action="" method="post">
         {% csrf_token %}
         <div class="row ">

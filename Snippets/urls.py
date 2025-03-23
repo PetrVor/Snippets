@@ -14,4 +14,5 @@ urlpatterns = [
     path('login',views.login, name='login'),
     path('logout',views.logout, name='logout'),
     path('register',views.create_user, name='register'),
+    path('comments/add', views.comments_add, name="comments-add"),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
