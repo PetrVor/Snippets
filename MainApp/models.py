@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 LANGS = (("py" , "Python"),
          ("js", "JavaScript"),
          ("cpp" , "C++"),
@@ -20,3 +21,4 @@ class Snippet(models.Model):
 
     def __repr__(self):
         return f"Snippet({self.name})"
+    
