@@ -1,4 +1,4 @@
-from django.http import Http404, HttpResponse, HttpResponseNotFound
+from django.http import Http404, HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, render, redirect
 from MainApp.forms import SnippetForm, UserRegistrationForm,CommentForm
 from MainApp.models import Snippet
